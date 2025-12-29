@@ -1,11 +1,6 @@
+const rootDiv = document.querySelector("#root");
 function getParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return "";
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
+  return localStorage.getItem(name);
 }
 
 function getDefaultAnimationDuration(id) {
@@ -25,168 +20,181 @@ function getDefaultAnimationDuration(id) {
   }
 }
 
-var r = document.querySelector(":root");
+function getAnimationContext() {
+  var animationId = getParameterByName("animation") || "1";
+  var animationDuration = getParameterByName("duration");
+  var line1 = getParameterByName("line1") || "John Doe";
+  var color1 = getParameterByName("color1") || "fff";
+  var line2 = getParameterByName("line2") || "Motion Designer";
+  var color2 = getParameterByName("color2") || "cf4c4e";
 
-var animationId = getParameterByName("id");
-if (animationId === undefined || animationId === null) {
-  animationId = "1";
-}
-console.log("Animation type", animationId);
-
-const defautAnimationDuration = getDefaultAnimationDuration(animationId);
-const pattern = /^\d+s/;
-
-var animationDuration = getParameterByName("duration");
-console.log("Animation duration", animationDuration);
-if (
-  animationDuration === undefined ||
-  animationId === null ||
-  !pattern.test(animationDuration) ||
-  (pattern.test(animationDuration) && animationDuration === "0s")
-) {
-  animationDuration = getDefaultAnimationDuration(animationId);
-  console.log("Set default animation duration", animationDuration);
+  return {
+    animationId,
+    color1,
+    color2,
+    line1,
+    line2,
+    animationDuration,
+  };
 }
 
-if (animationDuration !== defautAnimationDuration) {
+function getAnimationHtml(animationId, line1, line2, color2) {
+  let html = "";
+
+  switch (animationId) {
+    case "1":
+      html += '<div id="animation-1" class="animation">';
+      html += '    <div class="color2">/</div>';
+      html += '    <div class="color1 light mask">';
+      html += `      <div>${line1}</div>`;
+      html += "    </div>";
+      html += '    <div class="color1 light mask">';
+      html += `      <div>${line2}</div>`;
+      html += "    </div>";
+      html += "</div>";
+      break;
+
+    case "2":
+      html += '<div id="animation-2" class="animation">';
+      html += '    <div class="color2 bold arimo mask">';
+      html += `      <div>${line1}</div>`;
+      html += "    </div>";
+      html += '    <div class="color1 light mask">';
+      html += `      <div>${line2}</div>`;
+      html += "    </div>";
+      html += "</div>";
+      break;
+
+    case "3":
+      html += '<div id="animation-3" class="animation">';
+      html += '    <div class="color1 light mask">';
+      html += `      <div>${line1}</div>`;
+      html += "    </div>";
+      html += '    <div class="color2 bold arimo mask">';
+      html += `      <div>${line2}</div>`;
+      html += "    </div>";
+      html += "</div>";
+      break;
+
+    case "4":
+      html += '<div id="animation-4" class="animation">';
+      html += '    <div class="color1 bold arimo mask">';
+      html += `      <div>${line1}</div>`;
+      html += "    </div>";
+      html += '    <div class="mask"><div class="back2"></div></div>';
+      html += "</div>";
+      break;
+
+    default:
+      html += '<div id="animation-5" class="animation">';
+      html +=
+        '    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">';
+      html += "        <defs>";
+      html += '            <clipPath id="mask-bottom-right">';
+      html +=
+        '                <rect class="clip-path" x="70%" y="0" width="30%" height="100%"/>';
+      html += "            </clipPath>";
+      html += '            <clipPath id="mask-top">';
+      html +=
+        '                <rect class="clip-path" x="0" y="0" width="100%" height="100%"/>';
+      html += "            </clipPath>";
+      html += '            <clipPath id="mask-bottom-left">';
+      html +=
+        '                <rect class="clip-path" x="0" y="0" width="30%" height="100%"/>';
+      html += "            </clipPath>";
+      html += "        </defs>";
+      html +=
+        '        <line class="bottom-right" x1="70%" y1="100%" x2="100%" y2="100%"/>';
+      html +=
+        '        <line class="right" x1="100%" y1="0" x2="100%" y2="100%"/>';
+      html += '        <line class="top" x1="0" y1="0" x2="100%" y2="0"/>';
+      html += '        <line class="left" x1="0" y1="0" x2="0" y2="100%"/>';
+      html +=
+        '        <line class="bottom-left" x1="0" y1="100%" x2="30%" y2="100%"/>';
+      html += "    </svg>";
+      html += '    <div class="color1 bold arimo mask">';
+      html += `      <div>${line1}</div>`;
+      html += "    </div>";
+      html += '    <div class="color1 mask">';
+      html += `      <div>${line2}</div>`;
+      html += "    </div>";
+      html += "</div>";
+      html += "<style>";
+      html += "#animation-5 line {";
+      html += `  stroke: #${color2};`;
+      html += "}";
+      html += "</style>";
+      break;
+  }
+
+  return html;
+}
+
+function generateStyles(color1, color2) {
+  return `
+        <style>
+            .color1 {
+                color: #${color1};
+            }
+            .color2 {
+                color: #${color2};
+            }
+            .back1 {
+                background-color: #${color1} !important;
+            }
+            .back2 {
+                background-color: #${color2} !important;
+            }
+        </style>
+    `;
+}
+
+function load() {
+  const { animationId, color1, color2, line1, line2, animationDuration } =
+    getAnimationContext();
+
+  // Update form fields
+  const form = document.getElementById("controlForm");
+  const fields = [
+    "animation",
+    "duration",
+    "line1",
+    "color1",
+    "line2",
+    "color2",
+  ];
+  fields.forEach((field) => {
+    const input = form.elements[field];
+    if (input) {
+      input.value = getParameterByName(field) || "";
+    }
+  });
+  var r = document.querySelector(":root");
   r.style.setProperty(`--animation-${animationId}-duration`, animationDuration);
+
+  const animationHtml = getAnimationHtml(animationId, line1, line2, color2);
+  const styles = generateStyles(color1, color2);
+  document.querySelector("main").innerHTML = styles;
+
+  console.log("Rendering animation...", animationHtml);
+  rootDiv.innerHTML = animationHtml;
 }
 
-var line1 = getParameterByName("line1");
-if (
-  line1 === undefined ||
-  line1 === null ||
-  (line1 !== undefined && line1 === "")
-) {
-  line1 = "John Doe";
-}
-var color1 = getParameterByName("color1");
-if (
-  color1 === undefined ||
-  color1 === null ||
-  (color1 !== undefined && color1 === "")
-) {
-  color1 = "fff";
-}
-console.log("Line1", line1, color1);
+document.addEventListener("DOMContentLoaded", function () {
+  load();
+});
 
-var line2 = getParameterByName("line2");
-if (
-  line2 === undefined ||
-  line2 === null ||
-  (line2 !== undefined && line2 === "")
-) {
-  line2 = "Motion Designer";
+function updateLowerThird(event) {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  for (const [key, value] of formData.entries()) {
+    console.log(`${key}: ${value}`);
+    localStorage.setItem(key, value);
+  }
+  const successDiv = document.getElementById("success");
+  successDiv.style.display = "block";
+  setTimeout(() => {
+    successDiv.style.display = "none";
+  }, 4000);
+  load();
 }
-var color2 = getParameterByName("color2");
-if (
-  color2 === undefined ||
-  color2 === null ||
-  (color2 !== undefined && color2 === "")
-) {
-  color2 = "cf4c4e";
-}
-console.log("Line2", line2, color2);
-
-switch (animationId) {
-  case "1":
-    document.writeln('<div id="animation-1" class="animation">');
-    document.writeln('	<div class="color2">/</div>');
-    document.writeln('	<div class="color1 light mask">');
-    document.writeln("	  <div>" + line1 + "</div>");
-    document.writeln("	</div>");
-    document.writeln('	<div class="color1 light mask">');
-    document.writeln("	  <div>" + line2 + "</div>");
-    document.writeln("	</div>");
-    document.writeln("</div>");
-    break;
-  case "2":
-    document.writeln('<div id="animation-2" class="animation">');
-    document.writeln('	<div class="color2 bold arimo mask">');
-    document.writeln("	  <div>" + line1 + "</div>");
-    document.writeln("	</div>");
-    document.writeln('	<div class="color1 light mask">');
-    document.writeln("	  <div>" + line2 + "</div>");
-    document.writeln("	</div>");
-    document.writeln("</div>");
-    break;
-  case "3":
-    document.writeln('<div id="animation-3" class="animation">');
-    document.writeln('	<div class="color1 light mask">');
-    document.writeln("	  <div>" + line1 + "</div>");
-    document.writeln('	</div><div class="color2 bold arimo mask">');
-    document.writeln("	  <div>" + line2 + "</div>");
-    document.writeln("	</div>");
-    document.writeln("</div>");
-    break;
-  case "4":
-    document.writeln('<div id="animation-4" class="animation">');
-    document.writeln('	<div class="color1 bold arimo mask">');
-    document.writeln("	  <div>" + line1 + "</div>");
-    document.writeln("	</div>");
-    document.writeln('	<div class="mask"><div class="back2"></div></div>');
-    document.writeln("</div>");
-    break;
-  case "5":
-    document.writeln('<div id="animation-5" class="animation">');
-    document.writeln(
-      '	<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">'
-    );
-    document.writeln("		<defs>");
-    document.writeln('			<clipPath id="mask-bottom-right">');
-    document.writeln(
-      '				<rect class="clip-path" x="70%" y="0" width="30%" height="100%"/>'
-    );
-    document.writeln("			</clipPath>");
-    document.writeln('			<clipPath id="mask-top">');
-    document.writeln(
-      '				<rect class="clip-path" x="0" y="0" width="100%" height="100%"/>'
-    );
-    document.writeln("			</clipPath>");
-    document.writeln('			<clipPath id="mask-bottom-left">');
-    document.writeln(
-      '				<rect class="clip-path" x="0" y="0" width="30%" height="100%"/>'
-    );
-    document.writeln("			</clipPath>");
-    document.writeln("		</defs>");
-    document.writeln(
-      '		<line class="bottom-right" x1="70%" y1="100%" x2="100%" y2="100%"/>'
-    );
-    document.writeln(
-      '		<line class="right" x1="100%" y1="0" x2="100%" y2="100%"/>'
-    );
-    document.writeln('		<line class="top" x1="0" y1="0" x2="100%" y2="0"/>');
-    document.writeln('		<line class="left" x1="0" y1="0" x2="0" y2="100%"/>');
-    document.writeln(
-      '		<line class="bottom-left" x1="0" y1="100%" x2="30%" y2="100%"/>'
-    );
-    document.writeln("	</svg>");
-    document.writeln('	<div class="color1 bold arimo mask">');
-    document.writeln("	  <div>" + line1 + "</div>");
-    document.writeln("	</div>");
-    document.writeln('	<div class="color1 mask">');
-    document.writeln("	  <div>" + line2 + "</div>");
-    document.writeln("	</div>");
-    document.writeln("</div>");
-    document.writeln("<style>");
-    document.writeln("#animation-5 line {");
-    document.writeln("  stroke: #" + color2 + ";");
-    document.writeln("}");
-    document.writeln("</style>");
-    break;
-}
-
-document.writeln("<style>");
-document.writeln(".color1 {");
-document.writeln("  color: #" + color1 + ";");
-document.writeln("}");
-document.writeln(".color2 {");
-document.writeln("  color: #" + color2 + ";");
-document.writeln("}");
-document.writeln(".back1 {");
-document.writeln("  background-color: #" + color1 + " !important;");
-document.writeln("}");
-document.writeln(".back2 {");
-document.writeln("  background-color: #" + color2 + " !important;");
-document.writeln("}");
-document.writeln("</style>");

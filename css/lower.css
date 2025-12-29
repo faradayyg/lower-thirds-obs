@@ -14,14 +14,19 @@ body {
   background-color: black;
 }
 
-main {
+main,
+#root {
   font-family: Open Sans;
   text-transform: uppercase;
   line-height: 1;
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: 100%;
   overflow: hidden;
+}
+
+main {
+  position: absolute;
+  height: 100%;
 }
 
 .animation {
@@ -111,29 +116,31 @@ main {
   position: absolute;
 }
 
-#animation-1>div:first-child {
+#animation-1 > div:first-child {
   font-size: 5em;
-  top: -.15em;
-  animation: var(--animation-1-duration) cubic-bezier(0.19, 0.76, 0.32, 1) infinite alternate both animation-1-slash;
+  top: -0.15em;
+  animation: var(--animation-1-duration) cubic-bezier(0.19, 0.76, 0.32, 1)
+    infinite alternate both animation-1-slash;
   -webkit-animation-iteration-count: 2;
 }
 
-#animation-1>div:nth-child(2),
-#animation-1>div:nth-child(3) {
+#animation-1 > div:nth-child(2),
+#animation-1 > div:nth-child(3) {
   font-size: 2em;
   height: 1em;
   width: 100%;
 }
 
-#animation-1>div:nth-child(2) div,
-#animation-1>div:nth-child(3) div {
-  animation: var(--animation-1-duration) cubic-bezier(0.19, 0.76, 0.32, 1) infinite alternate both;
+#animation-1 > div:nth-child(2) div,
+#animation-1 > div:nth-child(3) div {
+  animation: var(--animation-1-duration) cubic-bezier(0.19, 0.76, 0.32, 1)
+    infinite alternate both;
   -webkit-animation-iteration-count: 2;
 }
 
 #animation-1 div:nth-child(2) {
   top: 0;
-  left: .93em;
+  left: 0.93em;
 }
 
 #animation-1 div:nth-child(2) div {
@@ -141,8 +148,8 @@ main {
 }
 
 #animation-1 div:nth-child(3) {
-  top: .9em;
-  left: .55em;
+  top: 0.9em;
+  left: 0.55em;
 }
 
 #animation-1 div:nth-child(3) div {
@@ -184,32 +191,34 @@ main {
   text-align: center;
 }
 
-#animation-2>div {
+#animation-2 > div {
   width: 100%;
   height: 0.9em;
   padding-top: 0.04em;
 }
 
-#animation-2>div div {
+#animation-2 > div div {
   position: absolute;
   width: 100%;
 }
 
-#animation-2>div:first-child {
+#animation-2 > div:first-child {
   font-size: 2.8em;
 }
 
-#animation-2>div:first-child div {
-  animation: var(--animation-2-duration) ease-out infinite alternate both animation-2-name;
+#animation-2 > div:first-child div {
+  animation: var(--animation-2-duration) ease-out infinite alternate both
+    animation-2-name;
   -webkit-animation-iteration-count: 2;
 }
 
-#animation-2>div:last-child {
+#animation-2 > div:last-child {
   font-size: 1.1em;
 }
 
-#animation-2>div:last-child div {
-  animation: var(--animation-2-duration) ease-out infinite alternate both animation-2-title;
+#animation-2 > div:last-child div {
+  animation: var(--animation-2-duration) ease-out infinite alternate both
+    animation-2-title;
   -webkit-animation-iteration-count: 2;
 }
 
@@ -244,31 +253,33 @@ main {
   }
 }
 
-#animation-3>div {
+#animation-3 > div {
   display: inline-block;
   width: 50%;
   height: 1em;
 }
 
-#animation-3>div:first-child {
+#animation-3 > div:first-child {
   font-size: 2.4em;
   text-align: right;
   letter-spacing: 1px;
 }
 
-#animation-3>div:first-child div {
-  animation: var(--animation-3-duration) ease-out infinite alternate both animation-3-left;
+#animation-3 > div:first-child div {
+  animation: var(--animation-3-duration) ease-out infinite alternate both
+    animation-3-left;
   -webkit-animation-iteration-count: 2;
 }
 
-#animation-3>div:last-child {
+#animation-3 > div:last-child {
   font-size: 2.5em;
   line-height: 1.15;
   letter-spacing: -1px;
 }
 
-#animation-3>div:last-child div {
-  animation: var(--animation-3-duration) ease-out infinite alternate both animation-3-right;
+#animation-3 > div:last-child div {
+  animation: var(--animation-3-duration) ease-out infinite alternate both
+    animation-3-right;
   -webkit-animation-iteration-count: 2;
 }
 
@@ -303,26 +314,26 @@ main {
   }
 }
 
-#animation-4>div {
+#animation-4 > div {
   display: inline-block;
   vertical-align: middle;
 }
 
-#animation-4>div div {
+#animation-4 > div div {
   animation: var(--animation-4-duration) ease-out infinite alternate both;
   -webkit-animation-iteration-count: 2;
 }
 
-#animation-4>div:first-child {
+#animation-4 > div:first-child {
   font-size: 2.8em;
 }
 
-#animation-4>div:first-child div {
+#animation-4 > div:first-child div {
   animation-name: animation-4-text;
 }
 
-#animation-4>div:last-child div {
-  width: .38em;
+#animation-4 > div:last-child div {
+  width: 0.38em;
   height: 2.4em;
   background-color: #cf4c4e;
   animation-name: animation-4-stroke;
@@ -446,33 +457,151 @@ main {
   clip-path: url(#mask-bottom-left);
 }
 
-#animation-5 #mask-bottom-right>.clip-path {
+#animation-5 #mask-bottom-right > .clip-path {
   animation-name: animation-5-bottom-right;
 }
 
-#animation-5 #mask-top>.clip-path {
+#animation-5 #mask-top > .clip-path {
   animation-name: animation-5-top;
 }
 
-#animation-5 #mask-bottom-left>.clip-path {
+#animation-5 #mask-bottom-left > .clip-path {
   animation-name: animation-5-bottom-left;
 }
 
-#animation-5>div:nth-child(2) {
+#animation-5 > div:nth-child(2) {
   font-size: 2em;
-  padding-top: .4em;
+  padding-top: 0.4em;
 }
 
-#animation-5>div:nth-child(2) div {
+#animation-5 > div:nth-child(2) div {
   animation-name: animation-5-text-name;
 }
 
-#animation-5>div:nth-child(3) {
-  font-size: .9em;
-  letter-spacing: .7px;
-  margin-top: .2em;
+#animation-5 > div:nth-child(3) {
+  font-size: 0.9em;
+  letter-spacing: 0.7px;
+  margin-top: 0.2em;
 }
 
-#animation-5>div:nth-child(3) div {
+#animation-5 > div:nth-child(3) div {
   animation-name: animation-5-text-title;
+}
+
+/*********************
+* Control Form Styles
+*********************/
+#controlForm {
+  max-width: 500px;
+  margin: 20px;
+  padding: 30px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  font-family: "Open Sans", sans-serif;
+  color: #fff;
+}
+
+#controlForm .form-group {
+  margin-bottom: 20px;
+}
+
+#controlForm .form-group.animation-group {
+  margin-bottom: 25px;
+}
+
+#controlForm label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ccc;
+}
+
+#controlForm .animation-group > label {
+  margin-bottom: 12px;
+}
+
+#controlForm input[type="text"],
+#controlForm input[type="number"],
+#controlForm input[type="color"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #2a2a2a;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+#controlForm input[type="color"] {
+  height: 45px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+#controlForm .radio-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+#controlForm .radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 12px;
+  background: #2a2a2a;
+  border-radius: 4px;
+  border: 2px solid #333;
+  transition: all 0.2s;
+}
+
+#controlForm .radio-label:hover {
+  border-color: #cf4c4e;
+}
+
+#controlForm .radio-label input[type="radio"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+#controlForm .radio-label span {
+  font-size: 14px;
+}
+
+#controlForm input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: #cf4c4e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+#controlForm input[type="submit"]:hover {
+  background: #b8393b;
+}
+
+#success {
+  color: #ffffff;
+  background: rgba(0, 255, 0, 0.2);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 141, 111, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
