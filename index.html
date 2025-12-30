@@ -1,265 +1,294 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<title>Lower Thirds for OBS Studio</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="/css/lower.css">
-	<style>
-		body {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			min-height: 100vh;
-			background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-			font-family: 'Open Sans', sans-serif;
-			color: #fff;
-			padding: 20px;
-		}
+  <head>
+    <title>Lower Thirds for OBS Studio</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lower.css" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        font-family: "Open Sans", sans-serif;
+        color: #fff;
+        padding: 20px;
+      }
 
-		.container {
-			max-width: 800px;
-			width: 100%;
-			background: #1a1a1a;
-			border-radius: 12px;
-			padding: 40px;
-			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-		}
+      .container {
+        max-width: 800px;
+        width: 100%;
+        background: #1a1a1a;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      }
 
-		h1 {
-			font-size: 32px;
-			margin: 0 0 10px 0;
-			color: #cf4c4e;
-		}
+      h1 {
+        font-size: 32px;
+        margin: 0 0 10px 0;
+        color: #cf4c4e;
+      }
 
-		.subtitle {
-			font-size: 16px;
-			color: #999;
-			margin-bottom: 40px;
-		}
+      .subtitle {
+        font-size: 16px;
+        color: #999;
+        margin-bottom: 40px;
+      }
 
-		.generate-section {
-			background: #2a2a2a;
-			border-radius: 8px;
-			padding: 30px;
-			margin-bottom: 30px;
-			text-align: center;
-		}
+      .generate-section {
+        background: #2a2a2a;
+        border-radius: 8px;
+        padding: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
 
-		.generate-btn {
-			background: #cf4c4e;
-			color: white;
-			border: none;
-			padding: 15px 40px;
-			font-size: 18px;
-			font-weight: 600;
-			border-radius: 6px;
-			cursor: pointer;
-			transition: all 0.2s;
-			text-transform: uppercase;
-			letter-spacing: 0.5px;
-		}
+      .generate-btn {
+        background: #cf4c4e;
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
 
-		.generate-btn:hover {
-			background: #b8393b;
-			transform: translateY(-2px);
-			box-shadow: 0 4px 12px rgba(207, 76, 78, 0.4);
-		}
+      .generate-btn:hover {
+        background: #b8393b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(207, 76, 78, 0.4);
+      }
 
-		.room-display {
-			margin-top: 30px;
-			display: none;
-		}
+      .room-display {
+        margin-top: 30px;
+        display: none;
+      }
 
-		.room-display.active {
-			display: block;
-		}
+      .room-display.active {
+        display: block;
+      }
 
-		.room-id {
-			background: #000;
-			padding: 15px 20px;
-			border-radius: 6px;
-			font-size: 24px;
-			font-weight: 600;
-			color: #cf4c4e;
-			text-align: center;
-			margin-bottom: 20px;
-			border: 2px solid #333;
-		}
+      .room-id {
+        background: #000;
+        padding: 15px 20px;
+        border-radius: 6px;
+        font-size: 24px;
+        font-weight: 600;
+        color: #cf4c4e;
+        text-align: center;
+        margin-bottom: 20px;
+        border: 2px solid #333;
+      }
 
-		.links {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 15px;
-			margin-top: 20px;
-		}
+      .links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 20px;
+      }
 
-		.link-btn {
-			background: #333;
-			color: white;
-			text-decoration: none;
-			padding: 12px 20px;
-			border-radius: 6px;
-			text-align: center;
-			font-weight: 600;
-			transition: all 0.2s;
-			border: 2px solid #444;
-		}
+      .link-btn {
+        background: #333;
+        color: white;
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: 600;
+        transition: all 0.2s;
+        border: 2px solid #444;
+      }
 
-		.link-btn:hover {
-			background: #444;
-			border-color: #cf4c4e;
-			transform: translateY(-2px);
-		}
+      .link-btn:hover {
+        background: #444;
+        border-color: #cf4c4e;
+        transform: translateY(-2px);
+      }
 
-		.link-btn.control {
-			background: #2ecc71;
-			border-color: #27ae60;
-		}
+      .link-btn.control {
+        background: #2ecc71;
+        border-color: #27ae60;
+      }
 
-		.link-btn.control:hover {
-			background: #27ae60;
-			border-color: #2ecc71;
-		}
+      .link-btn.control:hover {
+        background: #27ae60;
+        border-color: #2ecc71;
+      }
 
-		.instructions {
-			margin-top: 30px;
-		}
+      .instructions {
+        margin-top: 30px;
+      }
 
-		.instructions h2 {
-			font-size: 20px;
-			margin-bottom: 15px;
-			color: #cf4c4e;
-		}
+      .instructions h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #cf4c4e;
+      }
 
-		.step {
-			background: #2a2a2a;
-			padding: 15px 20px;
-			border-radius: 6px;
-			margin-bottom: 12px;
-			border-left: 4px solid #cf4c4e;
-		}
+      .step {
+        background: #2a2a2a;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        border-left: 4px solid #cf4c4e;
+      }
 
-		.step-number {
-			display: inline-block;
-			background: #cf4c4e;
-			color: white;
-			width: 28px;
-			height: 28px;
-			border-radius: 50%;
-			text-align: center;
-			line-height: 28px;
-			margin-right: 12px;
-			font-weight: 600;
-		}
+      .step-number {
+        display: inline-block;
+        background: #cf4c4e;
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 28px;
+        margin-right: 12px;
+        font-weight: 600;
+      }
 
-		.step-content {
-			display: inline;
-		}
+      .step-content {
+        display: inline;
+      }
 
-		.note {
-			background: rgba(207, 76, 78, 0.1);
-			border: 1px solid rgba(207, 76, 78, 0.3);
-			padding: 15px;
-			border-radius: 6px;
-			margin-top: 20px;
-			font-size: 14px;
-		}
+      .note {
+        background: rgba(207, 76, 78, 0.1);
+        border: 1px solid rgba(207, 76, 78, 0.3);
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 20px;
+        font-size: 14px;
+      }
 
-		.note strong {
-			color: #cf4c4e;
-		}
+      .note strong {
+        color: #cf4c4e;
+      }
 
-		@media (max-width: 600px) {
-			.container {
-				padding: 25px;
-			}
+      @media (max-width: 600px) {
+        .container {
+          padding: 25px;
+        }
 
-			h1 {
-				font-size: 24px;
-			}
+        h1 {
+          font-size: 24px;
+        }
 
-			.links {
-				grid-template-columns: 1fr;
-			}
+        .links {
+          grid-template-columns: 1fr;
+        }
 
-			.room-id {
-				font-size: 18px;
-			}
-		}
-	</style>
-</head>
-<body>
-	<div class="container">
-		<h1>Lower Thirds for OBS Studio</h1>
-		<p class="subtitle">Professional animated lower thirds with real-time control</p>
+        .room-id {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Lower Thirds for OBS Studio</h1>
+      <p class="subtitle">
+        Professional animated lower thirds with real-time control
+      </p>
 
-		<div class="generate-section">
-			<button class="generate-btn" onclick="generateRoom()">Generate New Room</button>
+      <div class="generate-section">
+        <button class="generate-btn" onclick="generateRoom()">
+          Generate New Room
+        </button>
 
-			<div class="room-display" id="roomDisplay">
-				<h3 style="margin-top: 0; color: #ccc;">Your Room ID:</h3>
-				<div class="room-id" id="roomId"></div>
+        <div class="room-display" id="roomDisplay">
+          <h3 style="margin-top: 0; color: #ccc">Your Room ID:</h3>
+          <div class="room-id" id="roomId"></div>
 
-				<div class="links">
-					<a href="#" id="displayLink" class="link-btn" target="_blank">
-						Open Display (First)
-					</a>
-					<a href="#" id="controlLink" class="link-btn control" target="_blank">
-						Open Control Panel
-					</a>
-				</div>
-			</div>
-		</div>
+          <div class="links">
+            <a href="#" id="displayLink" class="link-btn" target="_blank">
+              Open Display (First)
+            </a>
+            <a
+              href="#"
+              id="controlLink"
+              class="link-btn control"
+              target="_blank"
+            >
+              Open Control Panel
+            </a>
+          </div>
+        </div>
+      </div>
 
-		<div class="instructions">
-			<h2>📖 How to Use</h2>
+      <div class="instructions">
+        <h2>📖 How to Use</h2>
 
-			<div class="step">
-				<span class="step-number">1</span>
-				<span class="step-content">Click <strong>"Generate New Room"</strong> to create a unique room ID</span>
-			</div>
+        <div class="step">
+          <span class="step-number">1</span>
+          <span class="step-content"
+            >Click <strong>"Generate New Room"</strong> to create a unique room
+            ID</span
+          >
+        </div>
 
-			<div class="step">
-				<span class="step-number">2</span>
-				<span class="step-content"><strong>Important:</strong> Open the <strong>Display</strong> page first (or add it to OBS as a Browser Source)</span>
-			</div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <span class="step-content"
+            ><strong>Important:</strong> Open the <strong>Display</strong> page
+            first (or add it to OBS as a Browser Source)</span
+          >
+        </div>
 
-			<div class="step">
-				<span class="step-number">3</span>
-				<span class="step-content">Then open the <strong>Control Panel</strong> in a browser tab to manage your lower thirds</span>
-			</div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <span class="step-content"
+            >Then open the <strong>Control Panel</strong> in a browser tab to
+            manage your lower thirds</span
+          >
+        </div>
 
-			<div class="step">
-				<span class="step-number">4</span>
-				<span class="step-content">Enter text in the control panel and click <strong>"Update Lower Third"</strong> to show the animation</span>
-			</div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <span class="step-content"
+            >Enter text in the control panel and click
+            <strong>"Update Lower Third"</strong> to show the animation</span
+          >
+        </div>
 
-			<div class="step">
-				<span class="step-number">5</span>
-				<span class="step-content">Click <strong>"Hide"</strong> to clear the display when needed</span>
-			</div>
+        <div class="step">
+          <span class="step-number">5</span>
+          <span class="step-content"
+            >Click <strong>"Hide"</strong> to clear the display when
+            needed</span
+          >
+        </div>
 
-			<div class="note">
-				<strong>⚠️ Important:</strong> Always open the Display page <strong>before</strong> opening the Control Panel. The display must be running first for the connection to work. Once connected, changes sync instantly via peer-to-peer connection!
-			</div>
-		</div>
-	</div>
+        <div class="note">
+          <strong>⚠️ Important:</strong> Always open the Display page
+          <strong>before</strong> opening the Control Panel. The display must be
+          running first for the connection to work. Once connected, changes sync
+          instantly via peer-to-peer connection!
+        </div>
+      </div>
+    </div>
 
-	<script>
-		function generateRoom() {
-			// Generate a random room ID
-			const roomId = Math.random().toString(36).substring(2, 10);
+    <script>
+      function generateRoom() {
+        // Generate a random room ID
+        const roomId = Math.random().toString(36).substring(2, 10);
 
-			// Update the display
-			document.getElementById('roomId').textContent = roomId;
-			document.getElementById('roomDisplay').classList.add('active');
+        // Update the display
+        document.getElementById("roomId").textContent = roomId;
+        document.getElementById("roomDisplay").classList.add("active");
 
-			// Update links
-			const baseUrl = window.location.origin;
-			document.getElementById('controlLink').href = `${baseUrl}/control/?room=${roomId}`;
-			document.getElementById('displayLink').href = `${baseUrl}/lower/?room=${roomId}`;
-		}
-	</script>
-</body>
+        // Update links
+        const baseUrl = window.location.origin;
+        document.getElementById("controlLink").href =
+          `${baseUrl}/control/?room=${roomId}`;
+        document.getElementById("displayLink").href =
+          `${baseUrl}/lower/?room=${roomId}`;
+      }
+    </script>
+  </body>
 </html>
