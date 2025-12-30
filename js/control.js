@@ -1,5 +1,21 @@
-// Extract roomId from URL path (/control/:roomId/)
-const roomId = window.location.pathname.split("/")[2];
+// Extract roomId from query parameter (/control/?room=abc123)
+const urlParams = new URLSearchParams(window.location.search);
+const roomId = urlParams.get("room");
+
+// Function to update connection status UI
+function updateConnectionStatus(status, message) {
+  const statusEl = document.getElementById("connectionStatus");
+  const statusText = statusEl.querySelector(".status-text");
+
+  // Remove all status classes
+  statusEl.classList.remove("connecting", "connected", "disconnected", "error");
+
+  // Add the new status class
+  statusEl.classList.add(status);
+
+  // Update the message
+  statusText.textContent = message;
+}
 
 // PeerJS Setup - Control connects to display
 const peer = new Peer();
@@ -7,6 +23,7 @@ let displayConnection = null;
 
 peer.on("open", (id) => {
   console.log("PeerJS: Control peer created with ID:", id);
+  updateConnectionStatus("connecting", "Connecting to display...");
 
   // Connect to the display peer
   const displayPeerId = `display-${roomId}`;
@@ -16,19 +33,23 @@ peer.on("open", (id) => {
 
   displayConnection.on("open", () => {
     console.log("PeerJS: Connected to display successfully");
+    updateConnectionStatus("connected", "Connected to display");
   });
 
   displayConnection.on("error", (err) => {
     console.error("PeerJS: Connection error:", err);
+    updateConnectionStatus("error", "Connection error");
   });
 
   displayConnection.on("close", () => {
     console.log("PeerJS: Display connection closed");
+    updateConnectionStatus("disconnected", "Disconnected from display");
   });
 });
 
 peer.on("error", (err) => {
   console.error("PeerJS: Peer error:", err);
+  updateConnectionStatus("error", `Error: ${err.type}`);
 });
 
 function getParameterByName(name) {
