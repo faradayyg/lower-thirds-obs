@@ -12,6 +12,17 @@
 body {
   margin: 0;
   background-color: black;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+hr {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid #333;
+  flex-shrink: 0;
 }
 
 main,
@@ -19,14 +30,18 @@ main,
   font-family: Open Sans;
   text-transform: uppercase;
   line-height: 1;
-  position: relative;
   width: 100%;
   overflow: hidden;
+}
+
+#root {
+  flex-shrink: 0;
 }
 
 main {
   position: absolute;
   height: 100%;
+  pointer-events: none;
 }
 
 .animation {
@@ -70,17 +85,19 @@ main {
     transform: translate3d(6em, 0, 0);
   }
 
-  25% {
+  8% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  85% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
     opacity: 0;
     transform: translate3d(6em, 0, 0);
-  }
-
-  45% {
-    opacity: 1;
-  }
-
-  50% {
-    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -89,12 +106,16 @@ main {
     left: -100%;
   }
 
-  45% {
-    left: -100%;
+  10% {
+    left: 0;
   }
 
-  65% {
+  85% {
     left: 0;
+  }
+
+  100% {
+    left: -100%;
   }
 }
 
@@ -103,12 +124,16 @@ main {
     left: -100%;
   }
 
-  55% {
-    left: -100%;
+  12% {
+    left: 0;
   }
 
-  75% {
+  85% {
     left: 0;
+  }
+
+  100% {
+    left: -100%;
   }
 }
 
@@ -119,9 +144,8 @@ main {
 #animation-1 > div:first-child {
   font-size: 5em;
   top: -0.15em;
-  animation: var(--animation-1-duration) cubic-bezier(0.19, 0.76, 0.32, 1)
-    infinite alternate both animation-1-slash;
-  -webkit-animation-iteration-count: 2;
+  animation: var(--animation-1-duration) cubic-bezier(0.19, 0.76, 0.32, 1) both
+    animation-1-slash;
 }
 
 #animation-1 > div:nth-child(2),
@@ -133,9 +157,7 @@ main {
 
 #animation-1 > div:nth-child(2) div,
 #animation-1 > div:nth-child(3) div {
-  animation: var(--animation-1-duration) cubic-bezier(0.19, 0.76, 0.32, 1)
-    infinite alternate both;
-  -webkit-animation-iteration-count: 2;
+  animation: var(--animation-1-duration) cubic-bezier(0.19, 0.76, 0.32, 1) both;
 }
 
 #animation-1 div:nth-child(2) {
@@ -164,12 +186,16 @@ main {
     transform: translate3d(0, 100%, 0);
   }
 
-  30% {
-    transform: translate3d(0, 100%, 0);
+  10% {
+    transform: translate3d(0, 0, 0);
   }
 
-  60% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 100%, 0);
   }
 }
 
@@ -178,12 +204,16 @@ main {
     transform: translate3d(0, -100%, 0);
   }
 
-  30% {
-    transform: translate3d(0, -100%, 0);
+  10% {
+    transform: translate3d(0, 0, 0);
   }
 
-  60% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, -100%, 0);
   }
 }
 
@@ -207,9 +237,7 @@ main {
 }
 
 #animation-2 > div:first-child div {
-  animation: var(--animation-2-duration) ease-out infinite alternate both
-    animation-2-name;
-  -webkit-animation-iteration-count: 2;
+  animation: var(--animation-2-duration) ease-out both animation-2-name;
 }
 
 #animation-2 > div:last-child {
@@ -217,9 +245,7 @@ main {
 }
 
 #animation-2 > div:last-child div {
-  animation: var(--animation-2-duration) ease-out infinite alternate both
-    animation-2-title;
-  -webkit-animation-iteration-count: 2;
+  animation: var(--animation-2-duration) ease-out both animation-2-title;
 }
 
 /*********************
@@ -230,12 +256,16 @@ main {
     transform: translate3d(100%, 0, 0);
   }
 
-  30% {
-    transform: translate3d(100%, 0, 0);
+  10% {
+    transform: translate3d(0, 0, 0);
   }
 
-  60% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(100%, 0, 0);
   }
 }
 
@@ -244,12 +274,16 @@ main {
     transform: translate3d(-100%, 0, 0);
   }
 
-  30% {
-    transform: translate3d(-100%, 0, 0);
+  10% {
+    transform: translate3d(0, 0, 0);
   }
 
-  60% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-100%, 0, 0);
   }
 }
 
@@ -266,9 +300,7 @@ main {
 }
 
 #animation-3 > div:first-child div {
-  animation: var(--animation-3-duration) ease-out infinite alternate both
-    animation-3-left;
-  -webkit-animation-iteration-count: 2;
+  animation: var(--animation-3-duration) ease-out both animation-3-left;
 }
 
 #animation-3 > div:last-child {
@@ -278,9 +310,7 @@ main {
 }
 
 #animation-3 > div:last-child div {
-  animation: var(--animation-3-duration) ease-out infinite alternate both
-    animation-3-right;
-  -webkit-animation-iteration-count: 2;
+  animation: var(--animation-3-duration) ease-out both animation-3-right;
 }
 
 /*********************
@@ -291,12 +321,16 @@ main {
     transform: translate3d(0, -100%, 0);
   }
 
-  30% {
-    transform: translate3d(0, -100%, 0);
+  8% {
+    transform: translate3d(0, 0, 0);
   }
 
-  60% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, -100%, 0);
   }
 }
 
@@ -305,12 +339,16 @@ main {
     transform: translate3d(0, -100%, 0);
   }
 
-  50% {
-    transform: translate3d(0, -100%, 0);
+  10% {
+    transform: translate3d(0, 0, 0);
   }
 
-  80% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, -100%, 0);
   }
 }
 
@@ -320,8 +358,7 @@ main {
 }
 
 #animation-4 > div div {
-  animation: var(--animation-4-duration) ease-out infinite alternate both;
-  -webkit-animation-iteration-count: 2;
+  animation: var(--animation-4-duration) ease-out both;
 }
 
 #animation-4 > div:first-child {
@@ -347,16 +384,16 @@ main {
     transform: translate3d(-100%, 96%, 0);
   }
 
-  8% {
-    transform: translate3d(-100%, 96%, 0);
-  }
-
-  30% {
-    transform: translate3d(0, 96%, 0);
-  }
-
-  38% {
+  5% {
     transform: translate3d(0, 0, 0);
+  }
+
+  85% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-100%, 96%, 0);
   }
 }
 
@@ -365,12 +402,16 @@ main {
     transform: translate3d(100%, 0, 0);
   }
 
-  38% {
-    transform: translate3d(100%, 0, 0);
+  8% {
+    transform: translate3d(0, 0, 0);
   }
 
-  58% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(100%, 0, 0);
   }
 }
 
@@ -379,16 +420,16 @@ main {
     transform: translate3d(-98%, -100%, 0);
   }
 
-  58% {
-    transform: translate3d(-98%, -100%, 0);
-  }
-
-  64% {
-    transform: translate3d(-98%, 0, 0);
-  }
-
-  84% {
+  10% {
     transform: translate3d(0, 0, 0);
+  }
+
+  85% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-98%, -100%, 0);
   }
 }
 
@@ -397,12 +438,16 @@ main {
     transform: translate3d(0, 110%, 0);
   }
 
-  25% {
-    transform: translate3d(0, 110%, 0);
+  10% {
+    transform: translate3d(0, 0, 0);
   }
 
-  45% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 110%, 0);
   }
 }
 
@@ -411,12 +456,16 @@ main {
     transform: translate3d(0, -100%, 0);
   }
 
-  35% {
-    transform: translate3d(0, -100%, 0);
+  10% {
+    transform: translate3d(0, 0, 0);
   }
 
-  55% {
+  85% {
     transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, -100%, 0);
   }
 }
 
@@ -439,8 +488,7 @@ main {
 
 #animation-5 div,
 #animation-5 .clip-path {
-  animation: var(--animation-5-duration) ease-out infinite alternate both;
-  -webkit-animation-iteration-count: 2;
+  animation: var(--animation-5-duration) ease-out both;
 }
 
 #animation-5 .bottom-right,
@@ -489,11 +537,23 @@ main {
 }
 
 /*********************
+* Control Panel Layout
+*********************/
+.control-container {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  align-items: flex-start;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px - 1px);
+}
+
+/*********************
 * Control Form Styles
 *********************/
 #controlForm {
-  max-width: 500px;
-  margin: 20px;
+  flex: 2;
+  max-width: 700px;
   padding: 30px;
   background: #1a1a1a;
   border-radius: 8px;
@@ -522,8 +582,7 @@ main {
 }
 
 #controlForm input[type="text"],
-#controlForm input[type="number"],
-#controlForm input[type="color"] {
+#controlForm input[type="number"] {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #333;
@@ -533,12 +592,6 @@ main {
   font-size: 14px;
   font-family: inherit;
   box-sizing: border-box;
-}
-
-#controlForm input[type="color"] {
-  height: 45px;
-  padding: 4px;
-  cursor: pointer;
 }
 
 #controlForm .radio-group {
@@ -571,6 +624,25 @@ main {
   font-size: 14px;
 }
 
+#controlForm .color-radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#controlForm .color-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #555;
+  flex-shrink: 0;
+}
+
+#controlForm .color-radio input[type="radio"]:checked + .color-swatch {
+  border-color: #cf4c4e;
+  box-shadow: 0 0 0 2px rgba(207, 76, 78, 0.3);
+}
+
 #controlForm input[type="submit"] {
   width: 100%;
   padding: 12px;
@@ -591,11 +663,100 @@ main {
   background: #b8393b;
 }
 
+#controlForm button[type="button"] {
+  padding: 12px;
+  background: #333;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+#controlForm button[type="button"]:hover {
+  background: #444;
+  border-color: #666;
+}
+
+#controlForm .button-group {
+  display: flex;
+  gap: 10px;
+}
+
+#controlForm .button-group input[type="submit"] {
+  flex: 1;
+}
+
+#controlForm .button-group button {
+  flex: 0 0 auto;
+  min-width: 100px;
+}
+
+/*********************
+* Preview Section
+*********************/
+.preview-section {
+  flex: 1;
+  max-width: 400px;
+  padding: 30px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.preview-section h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-family: "Open Sans", sans-serif;
+  color: #fff;
+  font-size: 18px;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.preview-item {
+  background: #2a2a2a;
+  border-radius: 6px;
+  padding: 15px;
+  text-align: center;
+  border: 2px solid #333;
+  transition: all 0.2s;
+}
+
+.preview-item:hover {
+  border-color: #cf4c4e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(207, 76, 78, 0.2);
+}
+
+.preview-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  background: #000;
+}
+
+.preview-item p {
+  margin: 10px 0 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ccc;
+}
+
 #success {
   color: #ffffff;
   background: rgba(0, 255, 0, 0.2);
   padding: 12px 16px;
-  margin-bottom: 20px;
+  margin: 0 20px 20px 20px;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
