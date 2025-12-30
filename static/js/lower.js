@@ -1,7 +1,8 @@
 const rootDiv = document.querySelector("#root");
 
-// Extract roomId from URL path (/lower/:roomId/)
-const roomId = window.location.pathname.split("/")[2];
+// Extract roomId from query parameter (/lower/?room=abc123)
+const urlParams = new URLSearchParams(window.location.search);
+const roomId = urlParams.get('room');
 
 // PeerJS Setup - Display acts as the receiver
 const peerId = `display-${roomId}`;

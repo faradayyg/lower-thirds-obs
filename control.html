@@ -61,6 +61,80 @@
 			transition: max-height 0.5s ease-in;
 		}
 
+		/* Connection Status */
+		.connection-status {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 10px 15px;
+			border-radius: 6px;
+			margin-bottom: 20px;
+			font-size: 13px;
+			font-weight: 600;
+			border: 2px solid;
+		}
+
+		.connection-status .status-dot {
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			animation: pulse 2s ease-in-out infinite;
+		}
+
+		.connection-status.connecting {
+			background: rgba(255, 193, 7, 0.1);
+			border-color: rgba(255, 193, 7, 0.3);
+			color: #ffc107;
+		}
+
+		.connection-status.connecting .status-dot {
+			background: #ffc107;
+		}
+
+		.connection-status.connected {
+			background: rgba(76, 175, 80, 0.1);
+			border-color: rgba(76, 175, 80, 0.3);
+			color: #4caf50;
+		}
+
+		.connection-status.connected .status-dot {
+			background: #4caf50;
+			animation: none;
+		}
+
+		.connection-status.disconnected {
+			background: rgba(244, 67, 54, 0.1);
+			border-color: rgba(244, 67, 54, 0.3);
+			color: #f44336;
+		}
+
+		.connection-status.disconnected .status-dot {
+			background: #f44336;
+			animation: none;
+		}
+
+		.connection-status.error {
+			background: rgba(244, 67, 54, 0.15);
+			border-color: rgba(244, 67, 54, 0.4);
+			color: #f44336;
+		}
+
+		.connection-status.error .status-dot {
+			background: #f44336;
+			animation: none;
+		}
+
+		@keyframes pulse {
+			0%, 100% {
+				opacity: 1;
+				transform: scale(1);
+			}
+			50% {
+				opacity: 0.5;
+				transform: scale(0.9);
+			}
+		}
+
 		/* Responsive adjustments */
 		@media (min-width: 1024px) {
 			.control-container {
@@ -152,6 +226,13 @@
 	<div class="control-container">
 		<form id="controlForm" onsubmit="updateLowerThird(event)">
 			<h3>Lower Third Control Panel</h3>
+
+			<!-- Connection Status Indicator -->
+			<div id="connectionStatus" class="connection-status connecting">
+				<span class="status-dot"></span>
+				<span class="status-text">Initializing...</span>
+			</div>
+
 		<div class="form-group">
 			<label for="line1">Line 1:</label>
 			<input type="text" id="line1" name="line1" placeholder="First Line Text">

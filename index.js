@@ -31,11 +31,11 @@ app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
 });
 
-app.get("/lower/:roomId/", (req, res) => {
+app.get("/lower/", (req, res) => {
   res.sendFile(join(__dirname, "lower.html"));
 });
 
-app.get("/control/:roomId/", (req, res) => {
+app.get("/control/", (req, res) => {
   res.sendFile(join(__dirname, "control.html"));
 });
 
