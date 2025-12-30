@@ -1,267 +1,265 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<title>OBS - Lower Thirds</title>
-	<meta
-	  name="viewport"
-	  content="minimum-scale=1, initial-scale=1, width=device-width"
-	/>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-	<link rel="stylesheet" href="./css/site.css">
-	<!--getmdl-select-->   
-	<link rel="stylesheet" href="./css/getmdl-select/getmdl-select.min.css">
-	<script defer src="./js/getmdl-select/getmdl-select.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<title>Lower Thirds for OBS Studio</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/lower.css">
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+			font-family: 'Open Sans', sans-serif;
+			color: #fff;
+			padding: 20px;
+		}
+
+		.container {
+			max-width: 800px;
+			width: 100%;
+			background: #1a1a1a;
+			border-radius: 12px;
+			padding: 40px;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+		}
+
+		h1 {
+			font-size: 32px;
+			margin: 0 0 10px 0;
+			color: #cf4c4e;
+		}
+
+		.subtitle {
+			font-size: 16px;
+			color: #999;
+			margin-bottom: 40px;
+		}
+
+		.generate-section {
+			background: #2a2a2a;
+			border-radius: 8px;
+			padding: 30px;
+			margin-bottom: 30px;
+			text-align: center;
+		}
+
+		.generate-btn {
+			background: #cf4c4e;
+			color: white;
+			border: none;
+			padding: 15px 40px;
+			font-size: 18px;
+			font-weight: 600;
+			border-radius: 6px;
+			cursor: pointer;
+			transition: all 0.2s;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.generate-btn:hover {
+			background: #b8393b;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(207, 76, 78, 0.4);
+		}
+
+		.room-display {
+			margin-top: 30px;
+			display: none;
+		}
+
+		.room-display.active {
+			display: block;
+		}
+
+		.room-id {
+			background: #000;
+			padding: 15px 20px;
+			border-radius: 6px;
+			font-size: 24px;
+			font-weight: 600;
+			color: #cf4c4e;
+			text-align: center;
+			margin-bottom: 20px;
+			border: 2px solid #333;
+		}
+
+		.links {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 15px;
+			margin-top: 20px;
+		}
+
+		.link-btn {
+			background: #333;
+			color: white;
+			text-decoration: none;
+			padding: 12px 20px;
+			border-radius: 6px;
+			text-align: center;
+			font-weight: 600;
+			transition: all 0.2s;
+			border: 2px solid #444;
+		}
+
+		.link-btn:hover {
+			background: #444;
+			border-color: #cf4c4e;
+			transform: translateY(-2px);
+		}
+
+		.link-btn.control {
+			background: #2ecc71;
+			border-color: #27ae60;
+		}
+
+		.link-btn.control:hover {
+			background: #27ae60;
+			border-color: #2ecc71;
+		}
+
+		.instructions {
+			margin-top: 30px;
+		}
+
+		.instructions h2 {
+			font-size: 20px;
+			margin-bottom: 15px;
+			color: #cf4c4e;
+		}
+
+		.step {
+			background: #2a2a2a;
+			padding: 15px 20px;
+			border-radius: 6px;
+			margin-bottom: 12px;
+			border-left: 4px solid #cf4c4e;
+		}
+
+		.step-number {
+			display: inline-block;
+			background: #cf4c4e;
+			color: white;
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			text-align: center;
+			line-height: 28px;
+			margin-right: 12px;
+			font-weight: 600;
+		}
+
+		.step-content {
+			display: inline;
+		}
+
+		.note {
+			background: rgba(207, 76, 78, 0.1);
+			border: 1px solid rgba(207, 76, 78, 0.3);
+			padding: 15px;
+			border-radius: 6px;
+			margin-top: 20px;
+			font-size: 14px;
+		}
+
+		.note strong {
+			color: #cf4c4e;
+		}
+
+		@media (max-width: 600px) {
+			.container {
+				padding: 25px;
+			}
+
+			h1 {
+				font-size: 24px;
+			}
+
+			.links {
+				grid-template-columns: 1fr;
+			}
+
+			.room-id {
+				font-size: 18px;
+			}
+		}
+	</style>
 </head>
 <body>
-	<!-- Colored FAB button with ripple -->
-	<button onclick="clickToScrollTop()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored float-button">
-		<i class="material-icons">expand_less</i>
-	</button>
-	<!-- Always shows a header, even in smaller screens. -->
-	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-		<header class="mdl-layout__header">
-			<div class="mdl-layout__header-row">
-				<!-- Title -->
-				<span class="mdl-layout-title">Lower Thirds for OBS Studio</span>
-				<!-- Add spacer, to align navigation to the right -->
-				<div class="mdl-layout-spacer"></div>
-				<!-- Navigation. We hide it in small screens. -->
-				<nav class="mdl-navigation">
-					<a class="mdl-navigation__link" href="#info">Info</a>
-					<a class="mdl-navigation__link" href="#options">Options</a>
-					<a class="mdl-navigation__link" href="#use">Use</a>
-					<a class="mdl-navigation__link" href="#customize">Customize</a>
-				</nav>
-			</div>
-		</header>
-		<main class="mdl-layout__content">
-			<div class="page-content site-max-width">
-				<section id="info">
-					<h2>Info</h2>
-					<div>
-						<p>Lower thirds for OBS Studio using HTML, Javascript and CSS.</p>
-						<p>This project is based on After Effects template by Amaksi <a href="http://videohive.net/item/lower-thirds/10338608">http://videohive.net/item/lower-thirds/10338608</a>, and Matt Chestnut <a href="https://codepen.io/mattchestnut/pen/dMrONe">https://codepen.io/mattchestnut/pen/dMrONe</a>.</p>
-						<p>Can customize the lower thirds on url via parameters. For example: https://obs.infor-r.com/lower?id=3&line1=OBS&color1=ffffff&line2=Studio&color2=cf4c4e</p>
-						<p><img src="./img/example.gif"></p>
-						<p><small>Note: Source code on <a href="https://github.com/vjccruz/lower-thirds-obs">Github</a> page.</small></p>
-					</div>
-				</section>
-				<section id="options">
-					<h2>Options</h2>
-					<div>
-						<h4>Parameters available</h4>
-						<ul class="demo-list-two mdl-list">
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>id</span>
-									<span class="mdl-list__item-sub-title">template number</span>
-								</span>
-							</li>
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>line1</span>
-									<span class="mdl-list__item-sub-title">text for first line</span>
-								</span>
-							</li>
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>line2</span>
-									<span class="mdl-list__item-sub-title">text for second line</span>
-								</span>
-							</li>
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>color1</span>
-									<span class="mdl-list__item-sub-title">first hex color code</span>
-								</span>
-							</li>
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>color2</span>
-									<span class="mdl-list__item-sub-title">second hex color code</span>
-								</span>
-							</li>
-						</ul>
-						<h4>Templates available</h4>
-						<ul class="demo-list-two mdl-list templates">
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>Type 1</span>
-									<span class="mdl-list__item-sub-title">
-										<b>color1:</b> all text; <b>color2:</b> symbol /
-										<img src="./img/1.gif">
-									</span>
-								</span>
-							</li>
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>Type 2</span>
-									<span class="mdl-list__item-sub-title">
-										<b>color1:</b> second line; <b>color2:</b> first line
-										<img src="./img/2.gif">
-									</span>
-								</span>
-							</li>
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>Type 3</span>
-									<span class="mdl-list__item-sub-title">
-										<b>color1:</b> first part of text; <b>color2:</b> second part of text
-										<img src="./img/3.gif">
-									</span>
-								</span>
-							</li>
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>Type 4</span>
-									<span class="mdl-list__item-sub-title">
-										<b>color1:</b> all text; <b>color2:</b> symbol |
-										<img src="./img/4.gif">
-									</span>
-								</span>
-							</li>
-							<li class="mdl-list__item mdl-list__item--two-line">
-								<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">arrow_forward_ios</i>
-									<span>Type 5</span>
-									<span class="mdl-list__item-sub-title">
-										<b>color1:</b> all text; <b>color2:</b> all lines
-										<img src="./img/5.gif">
-									</span>
-								</span>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section id="use">
-					<h2>Use</h2>
-					<div>
-						<ul>
-							<li>Open OBS Studio</li>
-							<li>Add new source of type Browser</li>
-							<li>URL<br /><img src="./img/browser-1.png" />
-								<ul>
-									<li>Use <a href="#customize">Customize</a> to generate the URL</li>
-									<li>Click in preview</li>
-									<li>Click on generated URL to copy to clipboard</li>
-								</ul>
-							</li>
-							<li>Select "Shutdown source when not visible"<br /><img src="./img/browser-2.png" /></li>
-							<li>Select "Refresh browser when scene becomes active"</li>
-							<li>Example:<br /><img src="./img/browser-3.png" style="width:100%;" /></li>
-						</ul>
-						<small>Note: desactivate and active the source to get the lower third animation.</small>
-					</div>
-				</section>
-				<section id="customize">
-					<h2>Customize</h2>
-					<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--12-col">
-							<div class="mdl-textfield mdl-textfield-full-width mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
-								<input type="text" value="" class="mdl-textfield__input" id="idtype" readonly>
-								<input type="hidden" value="" name="idtype">
-								<i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
-								<label for="idtype" class="mdl-textfield__label">Type</label>
-								<ul for="idtype" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-									<li class="mdl-menu__item" data-val="1" data-selected="true">1 <img src="./img/1.gif" /></li>
-									<li class="mdl-menu__item" data-val="2">2 <img src="./img/2.gif" /></li>
-									<li class="mdl-menu__item" data-val="3">3 <img src="./img/3.gif" /></li>
-									<li class="mdl-menu__item" data-val="4">4 <img src="./img/4.gif" /></li>
-									<li class="mdl-menu__item" data-val="5">5 <img src="./img/5.gif" /></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--6-col">
-							<div class="mdl-textfield mdl-textfield-full-width mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="text" id="line1">
-								<label class="mdl-textfield__label" for="line1">Line 1</label>
-							</div>
-						</div>
-						<div class="mdl-cell mdl-cell--6-col">
-							<div class="mdl-textfield mdl-textfield-full-width mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="text" id="line2">
-								<label class="mdl-textfield__label" for="line2">Line 2</label>
-							</div>
-						</div>
-					</div>
-					<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--6-col">
-							<div class="mdl-textfield mdl-textfield-color mdl-js-textfield mdl-textfield--floating-label">
-								<input onkeyup="changeColorPicker(this, 'colorpicker1')" class="mdl-textfield__input" type="text" value="#ffffff" id="color1">
-								<label class="mdl-textfield__label" for="color1">Color for first element</label>
-							</div>
-							<input type="color" value="#ffffff" class="mdl-colorpicker" id="colorpicker1" onchange="changeColorPicker(this, 'color1')">
-						</div>
-						<div class="mdl-cell mdl-cell--6-col">
-							<div class="mdl-textfield mdl-textfield-color mdl-js-textfield mdl-textfield--floating-label">
-								<input onkeyup="changeColorPicker(this, 'colorpicker1')" class="mdl-textfield__input" type="text" value="#cf4c4e" id="color2">
-								<label class="mdl-textfield__label" for="color2">Color for second element</label>
-							</div>
-							<input type="color" value="#cf4c4e" class="mdl-colorpicker" id="colorpicker2" onchange="changeColorPicker(this, 'color2')">
-						</div>
-					</div>
-					<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--6-col">
-							<button onclick="preview()" class="btn-preview mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-								Preview
-							</button>
-						</div>
-					</div>
-					<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--12-col url-container">
-							<div class="label">
-								URL
-							</div>
-							<!-- mdl-textfield--floating-label is-dirty mdl-textfield__label -->
-							<div onclick="clickToCopy(this)" id="url">https://obs.infor-r.com/lower</div>
-							<div id="urlTooltip" class="mdl-tooltip" data-mdl-for="url">
-								click to copy
-							</div>
-							<input type="text" style="position:absolute;top:-200px;" id="hiddenURL" value="https://obs.infor-r.com/lower">
-						</div>
-					</div>
-					<div class="iframe">
-						<iframe src="/lower?id=1"></iframe>
-					</div>
-				</section>
-			</div>
-			<footer class="mdl-mini-footer">
-				<div class="mdl-mini-footer__left-section">
-					<div class="mdl-logo">
-						<p>by Vasco Cruz</p>
-						<p>Based on After Effects template by Amaksi <a href="http://videohive.net/item/lower-thirds/10338608">http://videohive.net/item/lower-thirds/10338608</a></p>
-						<p>And Matt Chestnut <a href="https://codepen.io/mattchestnut/pen/dMrONe">https://codepen.io/mattchestnut/pen/dMrONe</a></p>
-					</div>
+	<div class="container">
+		<h1>Lower Thirds for OBS Studio</h1>
+		<p class="subtitle">Professional animated lower thirds with real-time control</p>
+
+		<div class="generate-section">
+			<button class="generate-btn" onclick="generateRoom()">Generate New Room</button>
+
+			<div class="room-display" id="roomDisplay">
+				<h3 style="margin-top: 0; color: #ccc;">Your Room ID:</h3>
+				<div class="room-id" id="roomId"></div>
+
+				<div class="links">
+					<a href="#" id="controlLink" class="link-btn control" target="_blank">
+						Open Control Panel
+					</a>
+					<a href="#" id="displayLink" class="link-btn" target="_blank">
+						Open Display
+					</a>
 				</div>
-				<div class="mdl-mini-footer__right-section">
-					<ul class="mdl-mini-footer__link-list">
-						<li>
-							<a href="https://github.com/vjccruz/lower-thirds-obs" class="social-btn social-btn__github" role="button" title="GitHub"></a>
-						</li>
-					</ul>
-				</div>
-			</footer>
-		</main>
+			</div>
+		</div>
+
+		<div class="instructions">
+			<h2>📖 How to Use</h2>
+
+			<div class="step">
+				<span class="step-number">1</span>
+				<span class="step-content">Click <strong>"Generate New Room"</strong> to create a unique room ID</span>
+			</div>
+
+			<div class="step">
+				<span class="step-number">2</span>
+				<span class="step-content">Open the <strong>Control Panel</strong> in a browser tab to manage your lower thirds</span>
+			</div>
+
+			<div class="step">
+				<span class="step-number">3</span>
+				<span class="step-content">Add the <strong>Display URL</strong> as a Browser Source in OBS Studio</span>
+			</div>
+
+			<div class="step">
+				<span class="step-number">4</span>
+				<span class="step-content">Enter text in the control panel and click <strong>"Update Lower Third"</strong> to show the animation</span>
+			</div>
+
+			<div class="step">
+				<span class="step-number">5</span>
+				<span class="step-content">Click <strong>"Hide"</strong> to clear the display when needed</span>
+			</div>
+
+			<div class="note">
+				<strong>💡 Tip:</strong> The changes are synced instantly between the control panel and OBS. Make sure both tabs remain open while streaming! 
+			</div>
+		</div>
 	</div>
-	<script src="./js/site.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io();
-</script>
+
+	<script>
+		function generateRoom() {
+			// Generate a random room ID
+			const roomId = Math.random().toString(36).substring(2, 10);
+
+			// Update the display
+			document.getElementById('roomId').textContent = roomId;
+			document.getElementById('roomDisplay').classList.add('active');
+
+			// Update links
+			const baseUrl = window.location.origin;
+			document.getElementById('controlLink').href = `${baseUrl}/control/${roomId}/`;
+			document.getElementById('displayLink').href = `${baseUrl}/lower/${roomId}/`;
+		}
+	</script>
 </body>
 </html>

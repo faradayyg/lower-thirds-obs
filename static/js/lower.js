@@ -8,14 +8,6 @@ const socket = io({
   query: { roomId: roomId },
 });
 
-socket.on("connect", () => {
-  console.log("Connected to socket.io, room:", roomId);
-});
-
-socket.on("user-joined", (data) => {
-  console.log("User joined room:", data);
-});
-
 function getParameterByName(name, url) {
   return localStorage.getItem(name);
 }
@@ -200,6 +192,7 @@ socket.on("updateLowerThird", (data) => {
   load();
 });
 
-socket.on("clearLowerThird", () => {
+socket.on("clearLowerThird", (data) => {
   rootDiv.innerHTML = "";
+  console.log("Cleared lower third animation");
 });

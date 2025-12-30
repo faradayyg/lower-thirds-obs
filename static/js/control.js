@@ -66,10 +66,5 @@ function updateLowerThird(event) {
 }
 
 function hideLowerThird() {
-  // Broadcast hide command to all listening tabs
-  lowerThirdChannel.postMessage({
-    type: "hide",
-  });
   socket.emit("clearLowerThird", { roomId: roomId });
-  console.log("Hide command sent");
 }

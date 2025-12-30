@@ -46,13 +46,7 @@ io.on("connection", (socket) => {
 
   if (roomId) {
     socket.join(roomId);
-    console.log(`Socket ${socket.id} joined room: ${roomId}`);
 
-    // Notify room members
-    io.to(roomId).emit("user-joined", {
-      socketId: socket.id,
-      roomId: roomId,
-    });
     socket.on("updateLowerThird", (data) => {
       io.to(roomId).emit("updateLowerThird", data);
     });
@@ -61,10 +55,6 @@ io.on("connection", (socket) => {
       io.to(roomId).emit("clearLowerThird");
     });
   }
-
-  socket.on("disconnect", () => {
-    console.log(`Socket ${socket.id} disconnected`);
-  });
 });
 
 server.listen(3000, () => {
