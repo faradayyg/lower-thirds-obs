@@ -170,7 +170,10 @@ function load() {
     }
   });
   var r = document.querySelector(":root");
-  r.style.setProperty(`--animation-${animationId}-duration`, animationDuration);
+  const durationValue = animationDuration
+    ? (animationDuration.endsWith('s') ? animationDuration : `${animationDuration}s`)
+    : getDefaultAnimationDuration(animationId);
+  r.style.setProperty(`--animation-${animationId}-duration`, durationValue);
 
   const animationHtml = getAnimationHtml(animationId, line1, line2, color2);
   const styles = generateStyles(color1, color2);
@@ -197,4 +200,9 @@ function updateLowerThird(event) {
     successDiv.style.display = "none";
   }, 4000);
   load();
+}
+
+function hideLowerThird() {
+  rootDiv.innerHTML = "";
+  console.log("Animation hidden");
 }
