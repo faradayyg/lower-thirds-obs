@@ -1,4 +1,21 @@
 const rootDiv = document.querySelector("#root");
+
+// Extract roomId from URL path (/lower/:roomId/)
+const roomId = window.location.pathname.split("/")[2];
+
+// Connect to socket.io with roomId
+const socket = io({
+  query: { roomId: roomId },
+});
+
+socket.on("connect", () => {
+  console.log("Connected to socket.io, room:", roomId);
+});
+
+socket.on("user-joined", (data) => {
+  console.log("User joined room:", data);
+});
+
 function getParameterByName(name, url) {
   return localStorage.getItem(name);
 }
@@ -154,24 +171,12 @@ function load() {
     getAnimationContext();
 
   // Update form fields
-  const form = document.getElementById("controlForm");
-  const fields = [
-    "animation",
-    "duration",
-    "line1",
-    "color1",
-    "line2",
-    "color2",
-  ];
-  fields.forEach((field) => {
-    const input = form.elements[field];
-    if (input) {
-      input.value = getParameterByName(field) || "";
-    }
-  });
+
   var r = document.querySelector(":root");
   const durationValue = animationDuration
-    ? (animationDuration.endsWith('s') ? animationDuration : `${animationDuration}s`)
+    ? animationDuration.endsWith("s")
+      ? animationDuration
+      : `${animationDuration}s`
     : getDefaultAnimationDuration(animationId);
   r.style.setProperty(`--animation-${animationId}-duration`, durationValue);
 
@@ -187,22 +192,14 @@ document.addEventListener("DOMContentLoaded", function () {
   load();
 });
 
-function updateLowerThird(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
+socket.on("updateLowerThird", (data) => {
+  // Update localStorage with new data
+  for (const [key, value] of Object.entries(data.data)) {
     localStorage.setItem(key, value);
   }
-  const successDiv = document.getElementById("success");
-  successDiv.style.display = "block";
-  setTimeout(() => {
-    successDiv.style.display = "none";
-  }, 4000);
   load();
-}
+});
 
-function hideLowerThird() {
+socket.on("clearLowerThird", () => {
   rootDiv.innerHTML = "";
-  console.log("Animation hidden");
-}
+});
