@@ -1,6 +1,6 @@
 <html>
 <head>
-	<link rel="stylesheet" href="/css/lower.css">
+	<link rel="stylesheet" href="css/lower.css">
 </head>
 <body>
 	<!--
@@ -8,8 +8,61 @@
 	http://videohive.net/item/lower-thirds/10338608
 	https://codepen.io/mattchestnut/pen/dMrONe
 	-->
+    <div id="root" style="height: 200px"></div>
+    <form id="controlForm" onsubmit="updateLowerThird(event)">
+        
+        <div class="form-group">
+            <label for="line1">Line 1:</label>
+            <input type="text" id="line1" name="line1" placeholder="First Line Text">
+        </div>
+
+        <div class="form-group">
+            <label for="line2">Line 2:</label>
+            <input type="text" id="line2" name="line2" placeholder="Second Line Text">
+        </div>
+
+        <div class="form-group">
+            <label for="color">Color:</label>
+            <input type="text" id="color2" name="color2" value="ff0000">
+        </div>
+        <div class="form-group">
+            <label for="color">Duration:</label>
+            <input type="number" id="durations" name="durationz" value="10">
+        </div>
+
+        <div class="form-group animation-group">
+            <label>Animation Style:</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="animation" value="1" checked>
+                    <span>Style 1</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="animation" value="2">
+                    <span>Style 2</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="animation" value="3">
+                    <span>Style 3</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="animation" value="4">
+                    <span>Style 4</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="animation" value="5">
+                    <span>Style 5</span>
+                </label>
+            </div>
+        </div>
+
+        <input type="submit" value="Update Lower Third">
+    </form>
+        <div id="success" style="display: none">
+           ✅ Text Updated!
+        </div>
 	<main>
-		<script src="/js/lower.js"></script>
 	</main>
+		<script src="js/lower.js"></script>
 </body>
 </html>
