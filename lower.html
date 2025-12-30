@@ -1,6 +1,18 @@
 <html>
 <head>
-	<link rel="stylesheet" href="css/lower.css">
+	<link rel="stylesheet" href="/css/lower.css">
+    <script src="/socket.io/socket.io.js"></script>
+	<style>
+		body {
+			height: 100vh;
+			overflow: hidden;
+			display: block;
+		}
+		#root {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
 </head>
 <body>
 	<!--
@@ -8,166 +20,8 @@
 	http://videohive.net/item/lower-thirds/10338608
 	https://codepen.io/mattchestnut/pen/dMrONe
 	-->
-    <div id="root" style="height: 200px"></div>
-    <hr />
-    <div class="control-container">
-        <form id="controlForm" onsubmit="updateLowerThird(event)">
-        <div class="form-group">
-            <label for="line1">Line 1:</label>
-            <input type="text" id="line1" name="line1" placeholder="First Line Text">
-        </div>
-
-        <div class="form-group">
-            <label for="line2">Line 2:</label>
-            <input type="text" id="line2" name="line2" placeholder="Second Line Text">
-        </div>
-
-        <div class="form-group color-group">
-            <label>Text Color:</label>
-            <div class="radio-group">
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color1" value="ffffff" checked>
-                    <span class="color-swatch" style="background-color: #ffffff;"></span>
-                    <span>White</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color1" value="000000">
-                    <span class="color-swatch" style="background-color: #000000;"></span>
-                    <span>Black</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color1" value="cccccc">
-                    <span class="color-swatch" style="background-color: #cccccc;"></span>
-                    <span>Gray</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color1" value="ffff00">
-                    <span class="color-swatch" style="background-color: #ffff00;"></span>
-                    <span>Yellow</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color1" value="00ffff">
-                    <span class="color-swatch" style="background-color: #00ffff;"></span>
-                    <span>Cyan</span>
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group color-group">
-            <label>Accent Color:</label>
-            <div class="radio-group">
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color2" value="cf4c4e" checked>
-                    <span class="color-swatch" style="background-color: #cf4c4e;"></span>
-                    <span>Red</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color2" value="3498db">
-                    <span class="color-swatch" style="background-color: #3498db;"></span>
-                    <span>Blue</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color2" value="2ecc71">
-                    <span class="color-swatch" style="background-color: #2ecc71;"></span>
-                    <span>Green</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color2" value="e67e22">
-                    <span class="color-swatch" style="background-color: #e67e22;"></span>
-                    <span>Orange</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color2" value="9b59b6">
-                    <span class="color-swatch" style="background-color: #9b59b6;"></span>
-                    <span>Purple</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color2" value="f1c40f">
-                    <span class="color-swatch" style="background-color: #f1c40f;"></span>
-                    <span>Yellow</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color2" value="1abc9c">
-                    <span class="color-swatch" style="background-color: #1abc9c;"></span>
-                    <span>Teal</span>
-                </label>
-                <label class="radio-label color-radio">
-                    <input type="radio" name="color2" value="e91e63">
-                    <span class="color-swatch" style="background-color: #e91e63;"></span>
-                    <span>Pink</span>
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="duration">Duration (seconds):</label>
-            <input type="number" id="duration" name="duration" min="5" max="60" step="0.5" value="20">
-        </div>
-
-        <div class="form-group animation-group">
-            <label>Animation Style:</label>
-            <div class="radio-group">
-                <label class="radio-label">
-                    <input type="radio" name="animation" value="1" checked>
-                    <span>1</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="animation" value="2">
-                    <span>2</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="animation" value="3">
-                    <span>3</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="animation" value="4">
-                    <span>4</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="animation" value="5">
-                    <span>5</span>
-                </label>
-            </div>
-        </div>
-
-            <div class="button-group">
-                <input type="submit" value="Update Lower Third">
-                <button type="button" onclick="hideLowerThird()">Hide</button>
-            </div>
-        </form>
-
-        <div class="preview-section">
-            <h3>Animation Previews</h3>
-            <div class="preview-grid">
-                <div class="preview-item">
-                    <img src="img/1.gif" alt="Style 1 Preview">
-                    <p>Style 1</p>
-                </div>
-                <div class="preview-item">
-                    <img src="img/2.gif" alt="Style 2 Preview">
-                    <p>Style 2</p>
-                </div>
-                <div class="preview-item">
-                    <img src="img/3.gif" alt="Style 3 Preview">
-                    <p>Style 3</p>
-                </div>
-                <div class="preview-item">
-                    <img src="img/4.gif" alt="Style 4 Preview">
-                    <p>Style 4</p>
-                </div>
-                <div class="preview-item">
-                    <img src="img/5.gif" alt="Style 5 Preview">
-                    <p>Style 5</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="success" style="display: none">
-       ✅ Text Updated!
-    </div>
-	<main>
-	</main>
-		<script src="js/lower.js"></script>
+    <div id="root"></div>
+	<main></main>
+	<script src="/js/lower.js"></script>
 </body>
 </html>
