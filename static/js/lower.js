@@ -3,9 +3,42 @@ const rootDiv = document.querySelector("#root");
 // Extract roomId from URL path (/lower/:roomId/)
 const roomId = window.location.pathname.split("/")[2];
 
-// Connect to socket.io with roomId
-const socket = io({
-  query: { roomId: roomId },
+// PeerJS Setup - Display acts as the receiver
+const peerId = `display-${roomId}`;
+const peer = new Peer(peerId);
+
+peer.on("open", (id) => {
+  console.log("PeerJS: Display peer created with ID:", id);
+});
+
+peer.on("connection", (conn) => {
+  console.log("PeerJS: Control connected:", conn.peer);
+
+  conn.on("data", (data) => {
+    console.log("PeerJS: Received data:", data);
+
+    if (data.type === "update") {
+      // Update localStorage with new data
+      for (const [key, value] of Object.entries(data.data)) {
+        localStorage.setItem(key, value);
+      }
+      load();
+    } else if (data.type === "hide") {
+      rootDiv.innerHTML = "";
+    }
+  });
+
+  conn.on("close", () => {
+    console.log("PeerJS: Control disconnected");
+  });
+
+  conn.on("error", (err) => {
+    console.error("PeerJS: Connection error:", err);
+  });
+});
+
+peer.on("error", (err) => {
+  console.error("PeerJS: Peer error:", err);
 });
 
 function getParameterByName(name, url) {
@@ -182,17 +215,4 @@ function load() {
 
 document.addEventListener("DOMContentLoaded", function () {
   load();
-});
-
-socket.on("updateLowerThird", (data) => {
-  // Update localStorage with new data
-  for (const [key, value] of Object.entries(data.data)) {
-    localStorage.setItem(key, value);
-  }
-  load();
-});
-
-socket.on("clearLowerThird", (data) => {
-  rootDiv.innerHTML = "";
-  console.log("Cleared lower third animation");
 });
