@@ -76,6 +76,52 @@
         font-size: 13px;
         font-weight: 600;
         border: 2px solid;
+        position: relative;
+      }
+
+      .connection-status .refresh-btn {
+        margin-left: auto;
+        background: transparent;
+        border: 1px solid currentColor;
+        color: inherit;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        padding: 0;
+        line-height: 1;
+      }
+
+      .connection-status .refresh-btn:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(180deg);
+      }
+
+      .connection-status .refresh-btn:active:not(:disabled) {
+        transform: rotate(180deg) scale(0.9);
+      }
+
+      .connection-status .refresh-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .connection-status .refresh-btn.rotating {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       .connection-status .status-dot {
@@ -239,6 +285,9 @@
         <div id="connectionStatus" class="connection-status connecting">
           <span class="status-dot"></span>
           <span class="status-text">Initializing...</span>
+          <button type="button" class="refresh-btn" onclick="reconnectToDisplay()" title="Reconnect to display">
+            ↻
+          </button>
         </div>
 
         <div class="form-group">
